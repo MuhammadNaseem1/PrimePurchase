@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert,Image,TouchableHighlight } from 'react-native';
 
-export default function LoginPage() {
+export default function LoginPage({navigation}) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -10,6 +10,7 @@ export default function LoginPage() {
       Alert.alert('Error', 'Please fill in all fields');
       return;
     }
+    navigation.navigate("Home")
     // Perform login logic here
     Alert.alert('Success', 'Logged in successfully');
   };
@@ -39,7 +40,7 @@ export default function LoginPage() {
         secureTextEntry
       />
       <TouchableOpacity style={styles.button} onPress={handleLogin}>
-        <Text style={styles.buttonText}>Login</Text>
+        <Text style={styles.buttonText} onPress={()=>handleLogin()}>Login</Text>
       </TouchableOpacity>
       <TouchableOpacity>
         <Text style={styles.forgotPassword}>Forgot Password?</Text>
