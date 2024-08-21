@@ -3,6 +3,7 @@ import Home from '../screens/Home';
 import { NavigationContainer } from '@react-navigation/native';
 import { StyleSheet } from 'react-native';
 import LoginPage from '../screens/Login';
+import SignUpPage from '../screens/Signup';
 import PaymentScreen from '../screens/payment';
 const Stack = createStackNavigator();
 
@@ -26,6 +27,7 @@ export function MyStack() {
          <Stack.Screen name="Login" component={LoginPage} />
         <Stack.Screen name="Home" component={Home} />
         <Stack.Screen name="Payment" component={PaymentScreen} />
+        <Stack.Screen name="Signup" component={SignUpPage} />
         {/* <Stack.Screen name="Notifications" component={Notifications} />
         <Stack.Screen name="Profile" component={Profile} />
         <Stack.Screen name="Settings" component={Settings} /> */}
