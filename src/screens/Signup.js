@@ -1,18 +1,24 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, Image, TouchableHighlight, KeyboardAvoidingView, Platform, ScrollView } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, KeyboardAvoidingView, Platform, ScrollView } from 'react-native';
 
-export default function LoginPage({ navigation }) {
+export default function SignUpPage({ navigation }) {
+  const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [layoutWidth, setLayoutWidth] = useState(0);
 
-  const handleLogin = () => {
-    if (email === '' || password === '') {
+  const handleSignUp = () => {
+    if (username === '' || email === '' || password === '' || confirmPassword === '') {
       Alert.alert('Error', 'Please fill in all fields');
       return;
     }
+    if (password !== confirmPassword) {
+      Alert.alert('Error', 'Passwords do not match');
+      return;
+    }
     navigation.navigate("Home");
-    Alert.alert('Success', 'Logged in successfully');
+    Alert.alert('Success', 'Account created successfully');
   };
 
   const handleLayout = (event) => {
@@ -29,14 +35,16 @@ export default function LoginPage({ navigation }) {
         style={[styles.layout, { borderBottomLeftRadius: layoutWidth * 0.1, borderBottomEndRadius: layoutWidth * 0.1 }]}
         onLayout={handleLayout}
       ></View>
-      
-      <TouchableHighlight style={styles.highlight}>       
-        <Image
-          style={styles.logo}
-          source={require('../Assets/images/1.png')}
-        />
-      </TouchableHighlight>
       <ScrollView contentContainerStyle={styles.scrollContainer}>
+        <View style={styles.inputGroup}>
+          <Text style={styles.label}>Username <Text style={styles.asterisk}>*</Text></Text>
+          <TextInput
+            style={styles.input}
+            placeholder="Username"
+            value={username}
+            onChangeText={setUsername}
+          />
+        </View>
         <View style={styles.inputGroup}>
           <Text style={styles.label}>Email <Text style={styles.asterisk}>*</Text></Text>
           <TextInput
@@ -58,14 +66,21 @@ export default function LoginPage({ navigation }) {
             secureTextEntry
           />
         </View>
-        <TouchableOpacity style={styles.button} onPress={handleLogin}>
-          <Text style={styles.buttonText}>Login</Text>
+        <View style={styles.inputGroup}>
+          <Text style={styles.label}>Confirm Password <Text style={styles.asterisk}>*</Text></Text>
+          <TextInput
+            style={styles.input}
+            placeholder="Confirm Password"
+            value={confirmPassword}
+            onChangeText={setConfirmPassword}
+            secureTextEntry
+          />
+        </View>
+        <TouchableOpacity style={styles.button} onPress={handleSignUp}>
+          <Text style={styles.buttonText}>Sign Up</Text>
         </TouchableOpacity>
-        <TouchableOpacity>
-          <Text style={styles.forgotPassword}>Forgot Password?</Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate("Signup")}>
-          <Text style={styles.signup}>Don't have an account? Sign Up</Text>
+        <TouchableOpacity onPress={() => navigation.navigate('Login')}>
+          <Text style={styles.login}>Already have an account? Login</Text>
         </TouchableOpacity>
       </ScrollView>
     </KeyboardAvoidingView>
@@ -116,30 +131,11 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: '600',
   },
-  forgotPassword: {
+  login: {
     color: '#007BFF',
     fontSize: 16,
     textAlign: 'center',
-    marginBottom: 10,
-  },
-  signup: {
-    color: '#007BFF',
-    fontSize: 16,
-    textAlign: 'center',
-  },
-  logo: {
-    alignSelf: 'center',
-    width: 150,
-    height: 150,
-    borderRadius: 75,
-    overflow: "hidden",
-    borderWidth: 3,
-    borderColor: "red",
-    marginBottom: 30,
-    marginTop: 30,
-  },
-  highlight: {
-    marginBottom: 30,
+    marginTop: 10,
   },
   layout: {
     paddingTop: 0,
