@@ -32,7 +32,7 @@ export default function Home({navigation}) {
         </TouchableOpacity>
         <TouchableOpacity style={styles.iconButton}>
           <Image
-            source={require('../Assets/images/cart-icon.png')}
+            source={require('../Assets/images/payment-method.png')}
             style={styles.iconImage}
           />
         </TouchableOpacity>

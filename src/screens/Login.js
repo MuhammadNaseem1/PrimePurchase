@@ -1,20 +1,28 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, Image, TouchableHighlight, KeyboardAvoidingView, Platform, ScrollView } from 'react-native';
-
+import { topLayoutColor } from '../Assets/images/Colors';
+import AwesomeAlert from 'react-native-awesome-alerts';
 export default function LoginPage({ navigation }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [layoutWidth, setLayoutWidth] = useState(0);
-
+  const [alert,setAlert] =useState(false)
   const handleLogin = () => {
     if (email === '' || password === '') {
       Alert.alert('Error', 'Please fill in all fields');
       return;
     }
-    navigation.navigate("Home");
-    Alert.alert('Success', 'Logged in successfully');
+    showAlert();
+   
   };
 
+ const showAlert = () => {
+  setAlert(!alert)
+  };
+
+ const hideAlert = () => {
+  setAlert(!alert)
+  };
   const handleLayout = (event) => {
     const { width } = event.nativeEvent.layout;
     setLayoutWidth(width);
@@ -61,12 +69,31 @@ export default function LoginPage({ navigation }) {
         <TouchableOpacity style={styles.button} onPress={handleLogin}>
           <Text style={styles.buttonText}>Login</Text>
         </TouchableOpacity>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={()=> navigation.navigate("Forgot Password")}>
           <Text style={styles.forgotPassword}>Forgot Password?</Text>
         </TouchableOpacity>
         <TouchableOpacity onPress={() => navigation.navigate("Signup")}>
           <Text style={styles.signup}>Don't have an account? Sign Up</Text>
         </TouchableOpacity>
+        <AwesomeAlert
+          show={alert}
+          showProgress={false}
+          title="Successful"
+          message="Successfully Logged in!"
+          closeOnTouchOutside={true}
+          closeOnHardwareBackPress={false}
+          showCancelButton={true}
+          showConfirmButton={true}
+          cancelText="No, cancel"
+          confirmText="Yes, Login"
+          confirmButtonColor="#DD6B55"
+          onCancelPressed={() => {
+            hideAlert(!alert)
+          }}
+          onConfirmPressed={() => {
+            navigation.navigate("Home");
+          }}
+        />
       </ScrollView>
     </KeyboardAvoidingView>
   );
@@ -105,7 +132,7 @@ const styles = StyleSheet.create({
   },
   button: {
     height: 50,
-    backgroundColor: '#4CAF50',
+    backgroundColor: topLayoutColor,
     borderRadius: 8,
     justifyContent: 'center',
     alignItems: 'center',
@@ -117,13 +144,13 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
   forgotPassword: {
-    color: '#007BFF',
+    color: '#0b554f',
     fontSize: 16,
     textAlign: 'center',
     marginBottom: 10,
   },
   signup: {
-    color: '#007BFF',
+    color: '#0b554f',
     fontSize: 16,
     textAlign: 'center',
   },
@@ -144,7 +171,7 @@ const styles = StyleSheet.create({
   layout: {
     paddingTop: 0,
     height: '20%',
-    backgroundColor: '#83bbb2',
+    backgroundColor: topLayoutColor,
     width: '100%',
   },
 });
