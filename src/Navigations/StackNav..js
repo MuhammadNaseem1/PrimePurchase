@@ -5,11 +5,12 @@ import { StyleSheet } from 'react-native';
 import LoginPage from '../screens/Login';
 import SignUpPage from '../screens/Signup';
 import PaymentScreen from '../screens/payment';
+import ForgotPasswordPage from '../screens/ForgetPassword';
 const Stack = createStackNavigator();
 
 const sc = {
   headerStyle: {
-    backgroundColor: 'grey', // Customize the header background color
+    backgroundColor: '#83bbb2', // Customize the header background color
   },
   headerTintColor: '#fff', // Color of the header title and back button
   headerTitleStyle: {
@@ -23,15 +24,17 @@ const sc = {
 export function MyStack() {
   return (
     <NavigationContainer>
-      <Stack.Navigator screenOptions={sc}>
-         <Stack.Screen name="Login" component={LoginPage} />
-        <Stack.Screen name="Home" component={Home} />
-        <Stack.Screen name="Payment" component={PaymentScreen} />
-        <Stack.Screen name="Signup" component={SignUpPage} />
-        {/* <Stack.Screen name="Notifications" component={Notifications} />
-        <Stack.Screen name="Profile" component={Profile} />
-        <Stack.Screen name="Settings" component={Settings} /> */}
-      </Stack.Navigator>
-    </NavigationContainer>
+    <Stack.Navigator screenOptions={sc}>
+      <Stack.Screen name="Login" component={LoginPage} options={headerShown=false} />
+      <Stack.Screen name="Home" component={Home}options={headerShown=false} />
+      <Stack.Screen name="Payment" component={PaymentScreen} />
+      <Stack.Screen name="Signup" component={SignUpPage} />
+      <Stack.Screen name="Forgot Password" component={ForgotPasswordPage} />
+      {/* <Stack.Screen name="Notifications" component={Notifications} />
+      <Stack.Screen name="Profile" component={Profile} />
+      <Stack.Screen name="Settings" component={Settings} /> */}
+    </Stack.Navigator>
+  </NavigationContainer>
+  
   );
 }

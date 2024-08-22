@@ -1,24 +1,18 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, KeyboardAvoidingView, Platform, ScrollView } from 'react-native';
 import { topLayoutColor } from '../Assets/images/Colors';
-export default function SignUpPage({ navigation }) {
-  const [username, setUsername] = useState('');
+
+export default function ForgotPasswordPage({ navigation }) {
   const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
   const [layoutWidth, setLayoutWidth] = useState(0);
 
-  const handleSignUp = () => {
-    if (username === '' || email === '' || password === '' || confirmPassword === '') {
-      Alert.alert('Error', 'Please fill in all fields');
+  const handleRecoverPassword = () => {
+    if (email === '') {
+      Alert.alert('Error', 'Please enter your email');
       return;
     }
-    if (password !== confirmPassword) {
-      Alert.alert('Error', 'Passwords do not match');
-      return;
-    }
-    navigation.navigate("Home");
-    Alert.alert('Success', 'Account created successfully');
+    // Handle password recovery logic here
+    Alert.alert('Success', 'Password recovery instructions have been sent to your email');
   };
 
   const handleLayout = (event) => {
@@ -37,50 +31,21 @@ export default function SignUpPage({ navigation }) {
       ></View>
       <ScrollView contentContainerStyle={styles.scrollContainer}>
         <View style={styles.inputGroup}>
-          <Text style={styles.label}>Username <Text style={styles.asterisk}>*</Text></Text>
-          <TextInput
-            style={styles.input}
-            placeholder="Username"
-            value={username}
-            onChangeText={setUsername}
-          />
-        </View>
-        <View style={styles.inputGroup}>
           <Text style={styles.label}>Email <Text style={styles.asterisk}>*</Text></Text>
           <TextInput
             style={styles.input}
-            placeholder="Email"
+            placeholder="Enter your email"
             value={email}
             onChangeText={setEmail}
             keyboardType="email-address"
             autoCapitalize="none"
           />
         </View>
-        <View style={styles.inputGroup}>
-          <Text style={styles.label}>Password <Text style={styles.asterisk}>*</Text></Text>
-          <TextInput
-            style={styles.input}
-            placeholder="Password"
-            value={password}
-            onChangeText={setPassword}
-            secureTextEntry
-          />
-        </View>
-        <View style={styles.inputGroup}>
-          <Text style={styles.label}>Confirm Password <Text style={styles.asterisk}>*</Text></Text>
-          <TextInput
-            style={styles.input}
-            placeholder="Confirm Password"
-            value={confirmPassword}
-            onChangeText={setConfirmPassword}
-            secureTextEntry
-          />
-        </View>
-        <TouchableOpacity style={styles.button} onPress={handleSignUp}>
-          <Text style={styles.buttonText}>Sign Up</Text>
+        <TouchableOpacity style={styles.button} onPress={handleRecoverPassword}>
+          <Text style={styles.buttonText}>Recover Password</Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate('Login')}>
-          <Text style={styles.login}>Already have an account? Login</Text>
+        <TouchableOpacity onPress={() => navigation.navigate("Login")}>
+          <Text style={styles.login}>Back to Login</Text>
         </TouchableOpacity>
       </ScrollView>
     </KeyboardAvoidingView>
@@ -140,7 +105,7 @@ const styles = StyleSheet.create({
   layout: {
     paddingTop: 0,
     height: '20%',
-    backgroundColor: '#83bbb2',
+    backgroundColor: topLayoutColor,
     width: '100%',
   },
 });
