@@ -18,11 +18,13 @@ const products = [
 export default function Home({navigation}) {
   const renderItem = ({ item }) => (
     <View style={styles.card}>
+      <TouchableOpacity onPress={navigation.navigate('Product Details', { product: item })}>
       <Image source={item.image} style={styles.fullImage} />
       <View style={styles.textContainer}>
         <Text style={styles.name}>{item.name}</Text>
         <Text style={styles.price}>{item.price}</Text>
       </View>
+      </TouchableOpacity>
       <View style={styles.iconContainer}>
         <TouchableOpacity style={styles.iconButton} onPress={()=>navigation.navigate("Payment")} >
           <Image
