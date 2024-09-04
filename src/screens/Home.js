@@ -1,6 +1,7 @@
-import React from 'react';
-import { View, Text, Image, FlatList, StyleSheet, TouchableOpacity } from 'react-native';
-
+import React, { useState } from 'react';
+import { View, Text, Image, FlatList, StyleSheet, TouchableOpacity,Alert } from 'react-native';
+import { useStripe } from '@stripe/stripe-react-native';
+import axios from 'axios';
 const products = [
   { id: '1', name: 'Product 1', price: '$199', image: require('../Assets/images/1.png') },
   { id: '2', name: 'Product 2', price: '$299', image: require('../Assets/images/2.jpg') },
@@ -12,27 +13,84 @@ const products = [
   { id: '8', name: 'Product 8', price: '$899', image: require('../Assets/images/8.jpg') },
   { id: '9', name: 'Product 9', price: '$999', image: require('../Assets/images/9.jpg') },
   { id: '10', name: 'Product 10', price: '$1099', image: require('../Assets/images/10.jpg') },
-  { id: '10', name: 'Product 10', price: '$1099', image: require('../Assets/images/11.jpg') },
+  { id: '11', name: 'Product 11', price: '$1199', image: require('../Assets/images/11.jpg') },
 ];
 
-export default function Home({navigation}) {
+export default function Home({ navigation }) {
+
+  const handleProductPress = (item) => {
+    navigation.navigate('Product Details', { product: item });
+  };
+
+  const handlePaymentPress = () => {
+    navigation.navigate('Payment');
+  };
+
+  const { initPaymentSheet, presentPaymentSheet } = useStripe();
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  // const { initPaymentSheet, presentPaymentSheet } = useStripe();
+  const fetchPaymentIntentClientSecret = async () => {
+      try {
+          const response = await axios.post('http://192.168.204.35:3000/intents', {
+              amount: 19950 // amount in cents
+          }, {
+              headers: {
+                  'Content-Type': 'application/json',
+              }
+          });
+
+          const { client_secret } = response.data;
+          console.log("client secret",client_secret)
+          return client_secret;
+      } catch (error) {
+          console.error('Error fetching payment intent:', error);
+          setError('Failed to fetch payment intent');
+      }
+
+
+  };
+
+  const handlePayment = async () => {
+      setLoading(true);
+      setError(null);
+
+      const clientSecret = await fetchPaymentIntentClientSecret();
+      const { error: paymentSheetError } = await initPaymentSheet({
+        merchantDisplayName: 'Prime Purchase, Inc.',
+        paymentIntentClientSecret: clientSecret,
+        defaultBillingDetails: {
+          name: 'Muhammad Naseem',
+        },
+      });
+      if (paymentSheetError) {
+        Alert.alert('Something went wrong', paymentSheetError.message);
+        return;
+      }
+      const { error: paymentError } = await presentPaymentSheet();
+
+if (paymentError) {
+  Alert.alert(`Error code: ${paymentError.code}`, paymentError.message);
+  return;
+}
+  };
   const renderItem = ({ item }) => (
     <View style={styles.card}>
-      <TouchableOpacity onPress={navigation.navigate('Product Details', { product: item })}>
-      <Image source={item.image} style={styles.fullImage} />
-      <View style={styles.textContainer}>
-        <Text style={styles.name}>{item.name}</Text>
-        <Text style={styles.price}>{item.price}</Text>
-      </View>
+      <TouchableOpacity onPress={() => handleProductPress(item)}>
+        <Image source={item.image} style={styles.fullImage} />
+        <View style={styles.textContainer}>
+          <Text style={styles.name}>{item.name}</Text>
+          <Text style={styles.price}>{item.price}</Text>
+        </View>
       </TouchableOpacity>
       <View style={styles.iconContainer}>
-        <TouchableOpacity style={styles.iconButton} onPress={()=>navigation.navigate("Payment")} >
+        <TouchableOpacity style={styles.iconButton} onPress={handlePaymentPress}>
           <Image
             source={require('../Assets/images/cart-icon.png')}
             style={styles.iconImage}
           />
         </TouchableOpacity>
-        <TouchableOpacity style={styles.iconButton}>
+        <TouchableOpacity style={styles.iconButton}  onPress={handlePayment}>
           <Image
             source={require('../Assets/images/payment-method.png')}
             style={styles.iconImage}

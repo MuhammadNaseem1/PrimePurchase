@@ -18,21 +18,27 @@ export default function LoginPage({ navigation }) {
   };
 
   const signInGoogle = async () => {
-    const url = 'http:// 192.168.204.35:3000/auth/google';
     try {
-      const response = await axios.post('http://192.168.204.35:3000/auth/google', {
-          amount: 19950 // amount in cents
-      }, {
-          headers: {
-              'Content-Type': 'application/json',
+      const response = await axios.get('http://192.168.204.35:3000/auth/google');
+   if(response.status == 200)
+   {
+    Alert.alert(
+      "Authenticated", // Title
+      "You are authenticated", // Message
+      [
+        {
+          text: "OK",
+          onPress: () => {
+            navigation.navigate("Home");
           }
-      });
-        if (!response.ok) {
-            throw new Error(`Response status: ${response.status}`);
         }
+      ]
+    )
+   }
+        // if (!response.ok) {
+        //     throw new Error(`Response status: ${response.status}`);
+        // }
 
-        const json = await response.json();
-        console.log(json);
     } catch (error) {
         console.error('Error:', error.message);
     }
