@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, Image, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
 
-export default function ProductDetails({navigation, route }) {
+export default function ProductDetails({ route }) {
   const { product } = route.params;
 
   const renderVariety = ({ item }) => (
@@ -22,7 +22,10 @@ export default function ProductDetails({navigation, route }) {
         keyExtractor={(item) => item.name}
         contentContainerStyle={styles.varietyList}
       />
-      <TouchableOpacity style={styles.button} onPress={() => { navigation.goBack() }}>
+      <TouchableOpacity style={styles.button} onPress={() => { 
+        // navigation.goBack()
+       }
+        }>
         <Text style={styles.buttonText}>Back</Text>
       </TouchableOpacity>
     </View>

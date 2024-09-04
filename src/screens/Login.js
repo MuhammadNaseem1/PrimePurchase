@@ -2,27 +2,50 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, Image, TouchableHighlight, KeyboardAvoidingView, Platform, ScrollView } from 'react-native';
 import { topLayoutColor } from '../Assets/images/Colors';
 import AwesomeAlert from 'react-native-awesome-alerts';
+import axios from 'axios';
 export default function LoginPage({ navigation }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [layoutWidth, setLayoutWidth] = useState(0);
-  const [alert,setAlert] =useState(false)
+  const [alert, setAlert] = useState(false);
+
   const handleLogin = () => {
     if (email === '' || password === '') {
       Alert.alert('Error', 'Please fill in all fields');
       return;
     }
     showAlert();
-   
   };
 
- const showAlert = () => {
-  setAlert(!alert)
+  const signInGoogle = async () => {
+    const url = 'http:// 192.168.204.35:3000/auth/google';
+    try {
+      const response = await axios.post('http://192.168.204.35:3000/auth/google', {
+          amount: 19950 // amount in cents
+      }, {
+          headers: {
+              'Content-Type': 'application/json',
+          }
+      });
+        if (!response.ok) {
+            throw new Error(`Response status: ${response.status}`);
+        }
+
+        const json = await response.json();
+        console.log(json);
+    } catch (error) {
+        console.error('Error:', error.message);
+    }
+};
+
+  const showAlert = () => {
+    setAlert(!alert);
   };
 
- const hideAlert = () => {
-  setAlert(!alert)
+  const hideAlert = () => {
+    setAlert(!alert);
   };
+
   const handleLayout = (event) => {
     const { width } = event.nativeEvent.layout;
     setLayoutWidth(width);
@@ -44,7 +67,8 @@ export default function LoginPage({ navigation }) {
           source={require('../Assets/images/1.png')}
         />
       </TouchableHighlight>
-      <ScrollView contentContainerStyle={styles.scrollContainer}>
+
+      <ScrollView contentContainerStyle={styles.scrollContainer} keyboardShouldPersistTaps='handled' scrollEnabled={false}>
         <View style={styles.inputGroup}>
           <Text style={styles.label}>Email <Text style={styles.asterisk}>*</Text></Text>
           <TextInput
@@ -75,6 +99,16 @@ export default function LoginPage({ navigation }) {
         <TouchableOpacity onPress={() => navigation.navigate("Signup")}>
           <Text style={styles.signup}>Don't have an account? Sign Up</Text>
         </TouchableOpacity>
+
+        {/* Google Sign-In Button */}
+        <TouchableOpacity style={styles.googleButton} onPress={() => signInGoogle()}>
+          <Text style={styles.googleButtonText}>Sign in with  </Text>
+          <Image
+            style={styles.googleLogo}
+            source={{ uri: 'https://upload.wikimedia.org/wikipedia/commons/4/4a/Logo_2013_Google.png' }}
+          />
+        </TouchableOpacity>
+
         <AwesomeAlert
           show={alert}
           showProgress={false}
@@ -88,7 +122,7 @@ export default function LoginPage({ navigation }) {
           confirmText="Yes, Login"
           confirmButtonColor="#DD6B55"
           onCancelPressed={() => {
-            hideAlert(!alert)
+            hideAlert(!alert);
           }}
           onConfirmPressed={() => {
             navigation.navigate("Home");
@@ -173,5 +207,25 @@ const styles = StyleSheet.create({
     height: '20%',
     backgroundColor: topLayoutColor,
     width: '100%',
+  },
+  googleButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: 50,
+    backgroundColor: '#D22B2B',
+    borderColor: '#ccc',
+    borderWidth: 1,
+    borderRadius: 8,
+    marginTop: 20,
+  },
+  googleLogo: {
+    width: 74,
+    height: 24,
+    marginRight: 10,
+  },
+  googleButtonText: {
+    fontSize: 16,
+    color: '#333',
   },
 });
