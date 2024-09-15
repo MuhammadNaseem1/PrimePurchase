@@ -1,12 +1,15 @@
+import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
-import Home from '../screens/Home';
 import { NavigationContainer } from '@react-navigation/native';
 import { StyleSheet, View } from 'react-native';
+import Home from '../screens/Home'; // This will be replaced with the Tab Navigator
 import LoginPage from '../screens/Login';
 import SignUpPage from '../screens/Signup';
-import PaymentScreen from '../screens/payment';
+// import PaymentScreen from '../screens/Payment'
 import ForgotPasswordPage from '../screens/ForgetPassword';
 import ProductDetails from '../screens/ProductDetails';
+import TabNavigator from './TabNav';
+import Payment from '../screens/payment';
 const Stack = createStackNavigator();
 
 const HeaderBackground = () => (
@@ -37,7 +40,7 @@ export function MyStack() {
         />
         <Stack.Screen 
           name="Home" 
-          component={Home} 
+          component={TabNavigator} // Use Tab Navigator for Home
           options={{
             headerBackground: () => <HeaderBackground />,
             headerLeft: () => null, // Disable the back arrow
@@ -45,7 +48,7 @@ export function MyStack() {
         />
         <Stack.Screen 
           name="Payment" 
-          component={PaymentScreen} 
+          component={Payment} 
         />
         <Stack.Screen 
           name="Signup" 
@@ -55,7 +58,7 @@ export function MyStack() {
           name="Forgot Password" 
           component={ForgotPasswordPage} 
         />
-            <Stack.Screen 
+        <Stack.Screen 
           name="Product Details" 
           component={ProductDetails} 
           options={{
