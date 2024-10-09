@@ -1,6 +1,6 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { Image, Settings } from 'react-native';
+import { Image } from 'react-native';
 import Home from '../screens/Home';
 import SettingsScreen from '../screens/SettingScreen';
 
@@ -14,12 +14,12 @@ const TabNavigator = () => {
           let iconName;
           if (route.name === 'Home') {
             iconName = focused
-              ? require('../Assets/images/home-active.png') // Add your icon path here
-              : require('../Assets/images/home.png'); // Add your icon path here
+              ? require('../Assets/images/home-active.png')
+              : require('../Assets/images/home.png');
           } else if (route.name === 'Settings') {
             iconName = focused
-              ? require('../Assets/images/setting-active.png') // Add your icon path here
-              : require('../Assets/images/setting.png'); // Add your icon path here
+              ? require('../Assets/images/setting-active.png')
+              : require('../Assets/images/setting.png');
           }
           return <Image source={iconName} style={{ width: size, height: size, tintColor: color }} />;
         },

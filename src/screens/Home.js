@@ -74,9 +74,14 @@ if (paymentError) {
   return;
 }
   };
+
+  const handleGraphPress = (item) => {
+    navigation.navigate('Chart', { productId: item.id, productName: item.name });
+  };
+  
   const renderItem = ({ item }) => (
     <View style={styles.card}>
-      <TouchableOpacity onPress={() => handleProductPress(item)}>
+      <TouchableOpacity onPress={() => handleGraphPress(item)}>
         <Image source={item.image} style={styles.fullImage} />
         <View style={styles.textContainer}>
           <Text style={styles.name}>{item.name}</Text>
@@ -84,13 +89,13 @@ if (paymentError) {
         </View>
       </TouchableOpacity>
       <View style={styles.iconContainer}>
-        <TouchableOpacity style={styles.iconButton} onPress={handlePaymentPress}>
+        <TouchableOpacity style={styles.iconButton} onPress={handleGraphPress}>
           <Image
-            source={require('../Assets/images/cart-icon.png')}
+            source={require('../Assets/images/growth.png')} // New graph icon
             style={styles.iconImage}
           />
         </TouchableOpacity>
-        <TouchableOpacity style={styles.iconButton}  onPress={handlePayment}>
+        <TouchableOpacity style={styles.iconButton} onPress={handlePayment}>
           <Image
             source={require('../Assets/images/payment-method.png')}
             style={styles.iconImage}
@@ -99,6 +104,7 @@ if (paymentError) {
       </View>
     </View>
   );
+
 
   return (
     <View style={styles.container}>
