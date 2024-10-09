@@ -2,7 +2,7 @@ import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Image, Settings } from 'react-native';
 import Home from '../screens/Home';
-import Setting from '../screens/Settings';
+import SettingsScreen from '../screens/SettingScreen';
 
 const Tab = createBottomTabNavigator();
 
@@ -23,10 +23,10 @@ const TabNavigator = () => {
           }
           return <Image source={iconName} style={{ width: size, height: size, tintColor: color }} />;
         },
-        tabBarActiveTintColor: '#83bbb2',
+        tabBarActiveTintColor: 'red',
         tabBarInactiveTintColor: 'gray',
         tabBarStyle: {
-          backgroundColor: '#fff',
+          backgroundColor: '#83bbb2',
           borderTopWidth: 0,
           elevation: 5,
         },
@@ -34,7 +34,7 @@ const TabNavigator = () => {
       })}
     >
       <Tab.Screen name="Home" component={Home} />
-      <Tab.Screen name="Settings" component={Setting} />
+      <Tab.Screen name="Settings" component={SettingsScreen} />
     </Tab.Navigator>
   );
 };

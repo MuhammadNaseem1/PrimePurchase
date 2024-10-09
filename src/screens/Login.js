@@ -56,16 +56,42 @@ export default function LoginPage({ navigation }) {
     const { width } = event.nativeEvent.layout;
     setLayoutWidth(width);
   };
-
+  const text = "Welcome";
+  const letters = text.split(""); // Split the text into individual characters
+  
   return (
     <KeyboardAvoidingView 
       style={styles.container}
       behavior={Platform.OS === "ios" ? "padding" : "height"}
     >
-      <View 
-        style={[styles.layout, { borderBottomLeftRadius: layoutWidth * 0.1, borderBottomEndRadius: layoutWidth * 0.1 }]}
-        onLayout={handleLayout}
-      ></View>
+   <View
+      style={[
+        styles.layout,
+        {
+          borderBottomLeftRadius: layoutWidth * 0.1,
+          borderBottomEndRadius: layoutWidth * 0.1,
+        },
+      ]}
+      onLayout={handleLayout}
+    >
+      <View style={styles.curvedTextContainer}>
+        {letters.map((letter, index) => (
+          <Text
+            key={index}
+            style={[
+              styles.letter,
+              {
+                transform: [
+                  { rotate: `${(index - 3) * 5}deg` }, // Apply rotation for each letter to create curve
+                ],
+              },
+            ]}
+          >
+            {letter}
+          </Text>
+        ))}
+      </View>
+    </View>
       
       <TouchableHighlight style={styles.highlight}>       
         <Image
@@ -143,6 +169,40 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#f7f7f7',
+  },
+  curvedTextContainer: {
+    flexDirection: 'row', // Letters in a row
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginVertical:'10%'
+  },
+  letter: {
+    fontSize: 40,
+    fontFamily: 'Papyrus', // Ensure the font is linked properly
+    color: '#ffff',
+    marginHorizontal: 2, // Space between letters
+  },
+  layout: {
+    backgroundColor: '#fff',
+    paddingVertical: 20,
+    paddingHorizontal: 10,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 5,
+    elevation: 5, // For Android shadow effect
+  },
+  stylishText: {
+    fontSize: 50, // Increased for a bold impact
+    fontFamily: 'Papyrus', // Use your desired font here (ensure it's linked properly)
+    alignSelf: 'center',
+    textAlign: 'center',
+    color: 'orange', // Stylish color
+    textShadowColor: '#95a5a6', // Add text shadow for depth
+    textShadowOffset: { width: 2, height: 2 }, // Shadow offset
+    textShadowRadius: 4, // Softens shadow
+    letterSpacing: 2, // Adds spacing between letters
+    marginVertical: '10%',
   },
   scrollContainer: {
     flexGrow: 1,

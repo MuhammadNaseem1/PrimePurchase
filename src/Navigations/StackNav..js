@@ -25,6 +25,7 @@ const sc = {
     fontWeight: 'bold', // Bold title
     fontSize: 18, // Customize the font size
   },
+  
   headerTitleAlign: 'center', // Center align the title
   animationEnabled: true, // Enable animations
 };
@@ -44,6 +45,7 @@ export function MyStack() {
           options={{
             headerBackground: () => <HeaderBackground />,
             headerLeft: () => null, // Disable the back arrow
+            headerTitle:"Prime Purchase"
           }} 
         />
         <Stack.Screen 
